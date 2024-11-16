@@ -1,0 +1,89 @@
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --border-color: #bbb;
+    --initial-element-hover-color: rgb(254, 95, 95);
+    --element-hover-color: var(--initial-element-hover-color);
+    --initial-background-color: white;
+    --x-color: rgb(230, 64, 64);
+    --o-color: lightblue;
+}
+
+body {
+    --text-color: black;
+
+    background-color: var(--initial-background-color);
+    color: var(--text-color);
+    text-align: center;
+}
+
+#title {
+    font-size: 2.7em;
+    margin-bottom: 1em;
+}
+
+.grid-container {
+    --grid-width: 90%;
+    --grid-max-width: 500px;
+
+    width: var(--grid-width);
+    max-width: var(--grid-max-width);
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    aspect-ratio: 1 / 1;
+    justify-self: center;
+    gap: 1%;
+    background-color: var(--border-color);
+}
+
+.grid-container>.grid-container {
+    --grid-width: 100%;
+    gap: 0;
+    font-size: 570%;
+    text-align: center;
+    align-content: center;
+    background-color: var(--initial-background-color);
+    padding: 5%;
+}
+
+.element {
+    /* border: var(--border-color) solid 1px; */
+    align-content: center;
+    font-size: 31%;
+}
+
+.element:nth-child(9n + 5) {
+    border: 3px solid var(--border-color);
+}
+
+.element:nth-child(9n + 2),
+.element:nth-child(9n + 8) {
+    border-left: 3px solid var(--border-color);
+    border-right: 3px solid var(--border-color);
+}
+
+.element:nth-child(9n + 4),
+.element:nth-child(9n + 6) {
+    border-top: 3px solid var(--border-color);
+    border-bottom: 3px solid var(--border-color);
+}
+
+.element:hover {
+    background-color: rgb(254, 95, 95);
+}
+
+
+.active > .element {
+    --border-color: #545454;
+}
+
+.active > .element:hover {
+    background-color: rgb(149, 206, 225);
+}
+
+.grid-container>.marked {
+    display: block;
+}
