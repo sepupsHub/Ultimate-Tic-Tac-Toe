@@ -3,17 +3,21 @@
 }
 
 :root {
-    --border-color: #bbb;
-    --initial-element-hover-color: rgb(254, 95, 95);
+    --initial-border-color: #f2f2f2;
+    --inactive-border-color: #bbb;
+    --border-color: var(--initial-border-color);
+    --grid-border-color: #efba40;
+    --initial-element-hover-color: #fe5f5f;
     --element-hover-color: var(--initial-element-hover-color);
-    --initial-background-color: white;
-    --x-color: rgb(230, 64, 64);
-    --o-color: lightblue;
+    --initial-background-color: #1e1b1b;
+    --text-color: #f5f4f1;
+    --x-color: #efba40;
+    --o-color: #4d9fdd;
+    /* --test1: #efba40;
+    --test2: #4d9fdd; */
 }
 
 body {
-    --text-color: black;
-
     background-color: var(--initial-background-color);
     color: var(--text-color);
     text-align: center;
@@ -28,6 +32,7 @@ body {
     --grid-width: 90%;
     --grid-max-width: 500px;
 
+    font-family: 'Sour Gummy';
     width: var(--grid-width);
     max-width: var(--grid-max-width);
     display: grid;
@@ -36,7 +41,7 @@ body {
     aspect-ratio: 1 / 1;
     justify-self: center;
     gap: 1%;
-    background-color: var(--border-color);
+    background-color: var(--grid-border-color);
 }
 
 .grid-container>.grid-container {
@@ -50,7 +55,6 @@ body {
 }
 
 .element {
-    /* border: var(--border-color) solid 1px; */
     align-content: center;
     font-size: 31%;
 }
@@ -72,18 +76,26 @@ body {
 }
 
 .element:hover {
-    background-color: rgb(254, 95, 95);
+    background-color: #eee;
 }
 
 
 .active > .element {
-    --border-color: #545454;
+    --border-color: var(--initial-border-color);
 }
 
 .active > .element:hover {
-    background-color: rgb(149, 206, 225);
+    background-color: #d3d3d3;
 }
 
 .grid-container>.marked {
     display: block;
+}
+
+.markX {
+    color: var(--x-color);
+}
+
+.markO {
+    color: var(--o-color);
 }

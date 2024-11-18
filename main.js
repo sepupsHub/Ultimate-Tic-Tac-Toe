@@ -27,12 +27,12 @@ function getNewGridId(space) {
   let spaceArray = getGridElements(newGridId);
   for (let i = 0; i < spaceArray.length; i++) {
     if (space === spaceArray[i]) {
-        grids[gridId].classList.remove('active')
+      grids[gridId].classList.remove("active");
       gridId = i + 1;
       let gridText = grids[gridId].textContent;
-      grids[gridId].classList.add('active')
+      grids[gridId].classList.add("active");
       if (gridText === "X" || gridText === "O") {
-        grids[gridId].classList.remove('active')
+        grids[gridId].classList.remove("active");
         gridId = 0;
       }
       return;
@@ -63,15 +63,12 @@ function checkSpaces(spaceArray) {
 }
 
 function checkGrid(grid) {
-    let gridText = grid.textContent
-    let curGridId = grid.getAttribute("data-grid-id");
-    console.log(gridText)
-    console.log(curGridId)
-    console.log(gridId)
-    if ((gridText == "X" || gridText == "O") && curGridId == gridId) {
-        grid.classList.remove('active');
-        gridId = 0;
-      }
+  let gridText = grid.textContent;
+  let curGridId = grid.getAttribute("data-grid-id");
+  if ((gridText == "X" || gridText == "O") && curGridId == gridId) {
+    grid.classList.remove("active");
+    gridId = 0;
+  }
 }
 
 function checkWin(space) {
@@ -107,12 +104,19 @@ function winCelebration() {
   isRunning = false;
 }
 
+function changeSpaceColor(text, space) {
+  if (text === "X") space.classList.add("markX")
+  else space.classList.add("markO");
+}
+
 function markGrid(space) {
   let grid = grids[getGridIdFromSpace(space)];
-  grid.textContent = toMove();
+  let gridText = toMove();
+  grid.textContent = gridText;
   checkGrid(grid);
 
-  grid.classList.add('marked')
+  grid.classList.add("marked");
+  changeSpaceColor(gridText, grid);
 }
 
 function changeMovePar() {
@@ -123,14 +127,17 @@ function handler(space) {
   if (!canPlaceAt(space)) {
     return;
   }
-  space.textContent = toMove();
+  let spaceText = toMove();
+  space.textContent = spaceText;
   removeOnclick(space);
+
   if (checkWin(space)) {
     markGrid(space);
     if (checkWin(Array.from(grids).slice(1, 11))) {
       winCelebration();
     }
   }
+  changeSpaceColor(spaceText, space);
   turn++;
   if (isRunning) changeMovePar();
 }
