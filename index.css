@@ -4,17 +4,15 @@
 
 :root {
     --initial-border-color: #f2f2f2;
-    --inactive-border-color: #bbb;
-    --border-color: var(--initial-border-color);
+    --inactive-border-color: #6b6b6b;
+    --border-color: var(--inactive-border-color);
     --grid-border-color: #efba40;
     --initial-element-hover-color: #fe5f5f;
     --element-hover-color: var(--initial-element-hover-color);
-    --initial-background-color: #1e1b1b;
+    --initial-background-color: #131313;
     --text-color: #f5f4f1;
     --x-color: #efba40;
     --o-color: #4d9fdd;
-    /* --test1: #efba40;
-    --test2: #4d9fdd; */
 }
 
 body {
@@ -40,7 +38,7 @@ body {
     grid-template-rows: 1fr 1fr 1fr;
     aspect-ratio: 1 / 1;
     justify-self: center;
-    gap: 1%;
+    gap: 1.5%;
     background-color: var(--grid-border-color);
 }
 
@@ -55,6 +53,7 @@ body {
 }
 
 .element {
+    --border-color: var(--inactive-border-color);
     align-content: center;
     font-size: 31%;
 }
@@ -75,17 +74,12 @@ body {
     border-bottom: 3px solid var(--border-color);
 }
 
-.element:hover {
-    background-color: #eee;
-}
-
-
 .active > .element {
     --border-color: var(--initial-border-color);
 }
 
 .active > .element:hover {
-    background-color: #d3d3d3;
+    font-weight: bold;
 }
 
 .grid-container>.marked {
@@ -97,5 +91,13 @@ body {
 }
 
 .markO {
+    color: var(--o-color);
+}
+
+.active .markX {
+    color: var(--x-color);
+}
+
+.active .markO {
     color: var(--o-color);
 }

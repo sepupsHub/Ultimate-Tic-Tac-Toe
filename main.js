@@ -12,6 +12,16 @@ function toMove() {
   } else return "O";
 }
 
+function setAllGridsActive() {
+  for (let grid of grids)
+    grid.classList.add('active');
+}
+
+function removeAllActive(){
+  if (gridId === 0) for (let grid of grids)
+    grid.classList.remove('active');
+}
+
 function getGridIdFromSpace(space) {
   let grid = space.parentElement;
   let gridId = grid.getAttribute("data-grid-id");
@@ -19,10 +29,11 @@ function getGridIdFromSpace(space) {
 }
 
 function getGridElements(gridId) {
-  return Array.from(spacesCopy).slice((gridId - 1) * 9, gridId * 9);
+  return (spacesCopy).slice((gridId - 1) * 9, gridId * 9);
 }
 
 function getNewGridId(space) {
+  removeAllActive();
   let newGridId = getGridIdFromSpace(space);
   let spaceArray = getGridElements(newGridId);
   for (let i = 0; i < spaceArray.length; i++) {
@@ -32,7 +43,7 @@ function getNewGridId(space) {
       let gridText = grids[gridId].textContent;
       grids[gridId].classList.add("active");
       if (gridText === "X" || gridText === "O") {
-        grids[gridId].classList.remove("active");
+        setAllGridsActive()
         gridId = 0;
       }
       return;
@@ -152,5 +163,6 @@ function spaceClickEvent() {
 
 isRunning = true;
 if (isRunning) {
+  for (let grid of grids) grid.classList.add('active');
   spaceClickEvent();
 }
