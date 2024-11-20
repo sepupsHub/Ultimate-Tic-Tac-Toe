@@ -4,7 +4,7 @@
 
 :root {
     --initial-border-color: #f2f2f2;
-    --inactive-border-color: #6b6b6b;
+    --inactive-border-color: #808080;
     --border-color: var(--inactive-border-color);
     --grid-border-color: #efba40;
     --initial-element-hover-color: #fe5f5f;
@@ -13,6 +13,8 @@
     --text-color: #f5f4f1;
     --x-color: #efba40;
     --o-color: #4d9fdd;
+    --x-inactive: #76591f;
+    --o-inactive: #264e6b;
 }
 
 body {
@@ -39,7 +41,7 @@ body {
     aspect-ratio: 1 / 1;
     justify-self: center;
     gap: 1.5%;
-    background-color: var(--grid-border-color);
+    background-color: var(--x-color);
 }
 
 .grid-container>.grid-container {
@@ -53,7 +55,6 @@ body {
 }
 
 .element {
-    --border-color: var(--inactive-border-color);
     align-content: center;
     font-size: 31%;
 }
@@ -78,20 +79,20 @@ body {
     --border-color: var(--initial-border-color);
 }
 
-.active > .element:hover {
-    font-weight: bold;
-}
-
 .grid-container>.marked {
     display: block;
 }
 
 .markX {
-    color: var(--x-color);
+    color: var(--x-inactive);
 }
 
 .markO {
-    color: var(--o-color);
+    color: var(--o-inactive);
+}
+
+.gridO {
+    background-color: var(--o-color);
 }
 
 .active .markX {

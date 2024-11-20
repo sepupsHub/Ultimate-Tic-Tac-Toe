@@ -6,30 +6,30 @@ let turn = 0;
 let gridId = 0;
 const spacesCopy = Array.from(spaces);
 
+// Utility functions
 function toMove() {
-  if (turn % 2 === 0) {
-    return "X";
-  } else return "O";
-}
-
-function setAllGridsActive() {
-  for (let grid of grids)
-    grid.classList.add('active');
-}
-
-function removeAllActive(){
-  if (gridId === 0) for (let grid of grids)
-    grid.classList.remove('active');
+  return turn % 2 === 0 ? "X" : "O";
 }
 
 function getGridIdFromSpace(space) {
-  let grid = space.parentElement;
-  let gridId = grid.getAttribute("data-grid-id");
-  return parseInt(gridId);
+  return parseInt(space.parentElement.getAttribute("data-grid-id"));
 }
 
 function getGridElements(gridId) {
-  return (spacesCopy).slice((gridId - 1) * 9, gridId * 9);
+  return spacesCopy.slice((gridId - 1) * 9, gridId * 9);
+}
+
+function removeOnclick(space) {
+  space.onclick = null;
+}
+
+// Grid management functions
+function setAllGridsActive() {
+  for (let grid of grids) grid.classList.add("active");
+}
+
+function removeAllActive() {
+  if (gridId === 0) for (let grid of grids) grid.classList.remove("active");
 }
 
 function getNewGridId(space) {
@@ -43,7 +43,7 @@ function getNewGridId(space) {
       let gridText = grids[gridId].textContent;
       grids[gridId].classList.add("active");
       if (gridText === "X" || gridText === "O") {
-        setAllGridsActive()
+        setAllGridsActive();
         gridId = 0;
       }
       return;
@@ -60,19 +60,6 @@ function canPlaceAt(space) {
   return false;
 }
 
-function checkSpaces(spaceArray) {
-  if (spaceArray[0] != "X" && spaceArray[0] != "O") {
-    return false;
-  }
-  if (
-    spaceArray[0] === spaceArray[1] &&
-    spaceArray[0] === spaceArray[2] &&
-    spaceArray[1] === spaceArray[2]
-  )
-    return true;
-  return false;
-}
-
 function checkGrid(grid) {
   let gridText = grid.textContent;
   let curGridId = grid.getAttribute("data-grid-id");
@@ -82,14 +69,33 @@ function checkGrid(grid) {
   }
 }
 
+function markGrid(space) {
+  let grid = grids[getGridIdFromSpace(space)];
+  let gridText = toMove();
+  grid.textContent = gridText;
+  checkGrid(grid);
+  grid.classList.add("marked");
+  changeSpaceColor(gridText, grid);
+}
+
+// Win checking functions
+function checkSpaces(spaceArray) {
+  if (spaceArray[0] != "X" && spaceArray[0] != "O") {
+    return false;
+  }
+  return (
+    spaceArray[0] === spaceArray[1] &&
+    spaceArray[0] === spaceArray[2] &&
+    spaceArray[1] === spaceArray[2]
+  );
+}
+
 function checkWin(space) {
-  let spaceArray;
-  if (space.className == "element") {
-    spaceArray = getGridElements(getGridIdFromSpace(space));
-  } else spaceArray = space;
-  spaceArray = spaceArray.map((item) => {
-    return item.textContent;
-  });
+  let spaceArray =
+    space.className == "element"
+      ? getGridElements(getGridIdFromSpace(space))
+      : space;
+  spaceArray = spaceArray.map((item) => item.textContent);
   return (
     checkSpaces(spaceArray.slice(0, 3)) +
     checkSpaces(spaceArray.slice(3, 6)) +
@@ -102,12 +108,22 @@ function checkWin(space) {
   );
 }
 
-function removeOnclick(space) {
-  space.onclick = "";
+// UI update functions
+function changeSpaceColor(text, space) {
+  if (text === "X") {
+    space.classList.add("markX");
+    grids[0].classList.add("gridO");
+  } else {
+    space.classList.add("markO");
+    grids[0].classList.remove("gridO");
+  }
+}
+
+function changeMovePar() {
+  movePar.textContent = toMove() + movePar.textContent.slice(1);
 }
 
 function winCelebration() {
-  console.log("WIENER");
   for (let space of spaces) {
     removeOnclick(space);
   }
@@ -115,25 +131,7 @@ function winCelebration() {
   isRunning = false;
 }
 
-function changeSpaceColor(text, space) {
-  if (text === "X") space.classList.add("markX")
-  else space.classList.add("markO");
-}
-
-function markGrid(space) {
-  let grid = grids[getGridIdFromSpace(space)];
-  let gridText = toMove();
-  grid.textContent = gridText;
-  checkGrid(grid);
-
-  grid.classList.add("marked");
-  changeSpaceColor(gridText, grid);
-}
-
-function changeMovePar() {
-  movePar.textContent = toMove() + movePar.textContent.slice(1);
-}
-
+// Event handler functions
 function handler(space) {
   if (!canPlaceAt(space)) {
     return;
@@ -161,8 +159,9 @@ function spaceClickEvent() {
   }
 }
 
+// Initialization
 isRunning = true;
 if (isRunning) {
-  for (let grid of grids) grid.classList.add('active');
+  setAllGridsActive();
   spaceClickEvent();
 }
